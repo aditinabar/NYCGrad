@@ -30,8 +30,8 @@ write.csv(data, file = "NYC_Clean.csv", row.names = FALSE)
 
 #subset data: 2006, Female Male
 data.2001 <- subset(data, c(data$Cohort.Year == 2001, 
-                            data$Cohort.Category == "* June"), 
-                    row.names = FALSE)
+                            data$Cohort.Category == "*June"))
+row.names(data.2001) <- NULL
 data.2002 <- subset(data, data$Cohort.Year == 2002)
 data.2003 <- subset(data, data$Cohort.Year == 2003)
 data.2004 <- subset(data, data$Cohort.Year == 2004)
