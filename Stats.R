@@ -17,15 +17,15 @@ tapply(Male2006$Total.Grads.Num, Male2006$Cohort.Category, mean, na.rm = TRUE)
 ?ggplot
 
 #boxplot
-boxplot(data$Total.Grads.Pct.of.cohort[data$Demographic == "Female"], 
-        data$Total.Grads.Pct.of.cohort[data$Demographic == "Male"], 
-        ylab = "Grads as Percent of Cohort", names = c("Female", "Male"), 
-        main = "Overall F v M")
-
-boxplot(data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"],
-        data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"],
-        ylab = "Grads as Percent of Cohort", names = c("Female", "Male"),
-        main = "4YJune2007: Pct Grads")
+# boxplot(data$Total.Grads.Pct.of.cohort[data$Demographic == "Female"], 
+#         data$Total.Grads.Pct.of.cohort[data$Demographic == "Male"], 
+#         ylab = "Grads as Percent of Cohort", names = c("Female", "Male"), 
+#         main = "Overall F v M")
+# 
+# boxplot(data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"],
+#         data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"],
+#         ylab = "Grads as Percent of Cohort", names = c("Female", "Male"),
+#         main = "4YJune2007: Pct Grads")
 
 #Overall Comparison
 t.test(data$Total.Grads.Pct.of.cohort[data$Demographic == "Female"], 
@@ -45,19 +45,24 @@ t.test(data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"],
        data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Male"])
 
 # ggplot bar plot
-#not working as desired. only plotting one pair of bars. Not sure where the values are coming from.
-graph <- ggplot(data.2004, aes(x = factor(Demographic), y = mean(Total.Grads.Pct.of.cohort, na.rm = TRUE), 
+graph <- ggplot(data, aes(x = factor(Cohort.Year), y = mean(Total.Grads.Pct.of.cohort, na.rm = TRUE), 
                                fill = Demographic, stat = "identity", position = "dodge")) 
-t05 <- geom_bar(data = data.2005, aes(x = factor(Demographic), 
+t05 <- geom_bar(aes(x = factor(Cohort.Year), 
                                       y= mean(Total.Grads.Pct.of.cohort, na.rm = TRUE), 
                                       fill = Demographic), 
-                stat = "identity", position = "dodge", color = "violet")
-
-t06 <- geom_bar(data = data.2006, aes(x = factor(Demographic), 
+                stat = "identity", position = "dodge")
+#data = data.2005, 
+t06 <- geom_bar(aes(x = factor(Demographic), 
                                       y= mean(Total.Grads.Pct.of.cohort, na.rm = TRUE), 
                                       fill = Demographic), 
-                stat = "identity", position = "dodge", color = "lightcyan")
-
+                stat = "identity", position = "dodge", color = "cyan")
+#data = data.2006, 
 graph + t05 + t06
+
+
+g <- ggplot(data, aes(Demographic))
+
+aa <- geom_bar(data )
+
 
 
