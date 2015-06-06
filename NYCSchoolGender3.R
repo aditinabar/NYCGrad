@@ -3,7 +3,7 @@ getwd()
 library(ggplot2)
 
 
-NYC = read.table("Grad_by_SchoolGender.csv", sep = ",", header = TRUE, stringsAsFactor = TRUE)
+NYC = read.table("Grad_by_SchoolGender.csv", sep = ",", header = TRUE, stringsAsFactor = TRUE, quote = "\"")
 row.names(NYC) <- NULL
 
 #copy
