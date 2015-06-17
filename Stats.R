@@ -1,68 +1,27 @@
-#testing
-
-table(data$Cohort.Category, data$Cohort.Year)
-tapply(data.2006$Total.Grads.Pct.of.cohort, 
-       data.2006$Cohort.Category, mean, na.rm = TRUE)
-Fem2006 <- subset(data.2006, data.2006$Demographic == "Female")
-Male2006 <- subset(data.2006, data.2006$Demographic == "Male")
-
-tapply(Fem2006$Total.Grads.Pct.of.cohort, Fem2006$Cohort.Category, mean, na.rm = TRUE)
-tapply(Male2006$Total.Grads.Pct.of.cohort, Male2006$Cohort.Category, mean, na.rm = TRUE)
-
-tapply(Fem2006$Total.Grads.Num, Fem2006$Cohort.Category, mean, na.rm = TRUE)
-tapply(Male2006$Total.Grads.Num, Male2006$Cohort.Category, mean, na.rm = TRUE)
-
-#plot histogram
-#
-?ggplot
-
-#boxplot
-# boxplot(data$Total.Grads.Pct.of.cohort[data$Demographic == "Female"], 
-#         data$Total.Grads.Pct.of.cohort[data$Demographic == "Male"], 
-#         ylab = "Grads as Percent of Cohort", names = c("Female", "Male"), 
-#         main = "Overall F v M")
-# 
-# boxplot(data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"],
-#         data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"],
-#         ylab = "Grads as Percent of Cohort", names = c("Female", "Male"),
-#         main = "4YJune2007: Pct Grads")
-
-#Overall Comparison
-t.test(data$Total.Grads.Pct.of.cohort[data$Demographic == "Female"], 
-       data$Total.Grads.Pct.of.cohort[data$Demographic == "Male"])
-
-#Gender Comparison by Year
-t.test(data.2004$Total.Grads.Pct.of.cohort[data.2004$Demographic == "Female"], 
-       data.2004$Total.Grads.Pct.of.cohort[data.2004$Demographic == "Male"])
-
-t.test(data.2005$Total.Grads.Pct.of.cohort[data.2005$Demographic == "Female"], 
-       data.2005$Total.Grads.Pct.of.cohort[data.2005$Demographic == "Male"])
-
-t.test(data.2006$Total.Grads.Pct.of.cohort[data.2006$Demographic == "Female"], 
-       data.2006$Total.Grads.Pct.of.cohort[data.2006$Demographic == "Male"])
-
-t.test(data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Female"], 
-       data.2007$Total.Grads.Pct.of.cohort[data.2007$Demographic == "Male"])
-
+# Need NYCSchoolGender3.R
 # ggplot bar plot
-graph <- ggplot(data, aes(x = factor(Cohort.Year), y = mean(Total.Grads.Pct.of.cohort, na.rm = TRUE), 
-                               fill = Demographic, stat = "identity", position = "dodge")) 
-t05 <- geom_bar(aes(x = factor(Cohort.Year), 
-                                      y= mean(Total.Grads.Pct.of.cohort, na.rm = TRUE), 
-                                      fill = Demographic), 
-                stat = "identity", position = "dodge")
-#data = data.2005, 
-t06 <- geom_bar(aes(x = factor(Demographic), 
-                                      y= mean(Total.Grads.Pct.of.cohort, na.rm = TRUE), 
-                                      fill = Demographic), 
-                stat = "identity", position = "dodge", color = "cyan")
-#data = data.2006, 
-graph + t05 + t06
+statgraph <- ggplot(little_d, aes(x = factor(Year), 
+                                  y = MeanPct)) 
+geom <- geom_bar(aes(fill = little_d$Demographic, xlab = "Year", ylab = "Average Graduates (%)"), 
+                 stat = "identity",
+                 position = "dodge", )
+color <- scale_fill_brewer(palette = "Set2")
+labs <- labs(list(title = "Average Graduates per Year", x = "Year", y = "Average (%)"))
+guides <- guides(fill = guide_legend(title = NULL))
+theme <- theme(panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.border = element_blank(),
+      panel.background = element_blank())
 
+statgraph + geom + labs + guides + color + theme
 
-g <- ggplot(data, aes(Demographic))
-
-aa <- geom_bar(data )
+# Brewer color palettes https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf
 
 
 
+# dsamp <- diamonds[sample(nrow(diamonds), 1000), ]
+# (d <- qplot(carat, price, data = dsamp, colour = clarity))
+# 
+# # Change scale label
+# d + scale_colour_brewer()
+# d + scale_colour_brewer("clarity")
