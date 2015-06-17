@@ -49,14 +49,6 @@ chunkbyYearMonth <- function(data, year, month, category){
   return(datasub3)
 }
 
-# datasubs = list()
-
-# loop through the years or years&months and create your datasets
-
-# for(i in names(table(data$Cohort.Year))){
-#   datasubs[paste0("Y",i)] = chunkbyYearMonth(data = data, year = i, month = "June", category = "4 Year") 
-#   print(paste("Did", i))
-# }
 
 data.2004 = chunkbyYearMonth(data = data, year = '2004', month = 'June', category = '4')
 data.2005 = chunkbyYearMonth(data = data, year = '2005', month = 'June', category = '4')
@@ -82,4 +74,52 @@ chunkbyMonth <- function(data, month, category){
 }
 
 june <- chunkbyMonth(data = data, month = 'June', category = '4')
-View(june)
+
+
+#build df for ggplot
+
+dff <- data.frame(Year = levels(factor(june$Cohort.Year)),
+                 Demographic = c("Female",  
+                                 "Female", 
+                                 "Female", 
+                                 "Female", 
+                                 "Female", 
+                                 "Female",
+                                 "Female"),
+                 MeanPct = NA)
+
+dfm <- data.frame(Year = levels(factor(june$Cohort.Year)),
+                     Demographic = c("Male",  
+                                     "Male", 
+                                     "Male", 
+                                     "Male", 
+                                     "Male", 
+                                     "Male",
+                                     "Male"),
+                     MeanPct = NA)
+
+row.names(df) <- NULL
+
+# Female
+data_fem <- june[(june$Demographic == "Female"),]
+tapp <- tapply(data_fem$Total.Grads.Pct.of.cohort, data_fem$Cohort.Year, mean, na.rm = TRUE)
+tapp_fem <- data.frame(Year = names(tapp), value = tapp)
+row.names(tapp_fem) <- NULL
+tapp_fem[,"Demographic"] <- "Female"
+tapp_fem <- tapp_fem[,c(1,3,2)]
+
+# Male
+data_male <- june[(june$Demographic == "Male"),]
+tapp <- tapply(data_male$Total.Grads.Pct.of.cohort, data_male$Cohort.Year, mean, na.rm = TRUE)
+tapp_male <- data.frame(Year = names(tapp), value = tapp)
+row.names(tapp_male) <- NULL
+tapp_male[,"Demographic"] <- "Male"
+tapp_male <- tapp_male[,c(1,3,2)]
+
+# Merge  Female and Male
+little_d <- rbind(tapp_fem, tapp_male)
+little_d <- little_d[order(little_d$Year),]
+row.names(little_d) <- NULL
+names(little_d)[3] <- "MeanPct"
+
+View(little_d)
